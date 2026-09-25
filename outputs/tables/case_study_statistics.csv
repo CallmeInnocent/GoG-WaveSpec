@@ -1,0 +1,4 @@
+Location,Nominal_Latitude,Nominal_Longitude,ERA5_Latitude,ERA5_Longitude,Mean_Hs_m,Mean_Tm_s,Mean_WPD_kW_per_m
+Cote d'Ivoire offshore,4.5,-4.0,4.5,-4.0,1.3746,8.7484,8.8338
+Ghana offshore,4.5,-1.0,4.5,-1.0,1.3264,8.7359,8.1999
+Lagos offshore,5.0,3.4,5.0,3.5,1.3742,8.896,9.0541
