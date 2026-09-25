@@ -29,7 +29,7 @@ The ERA5 analysis domain is bounded by:
 - **West:** 5°W
 - **East:** 10°E
 
-The extracted dataset contains a **31 × 31 spatial grid** at approximately 0.5° spacing.
+The extracted dataset contains a **31 × 31 spatial grid** at 0.5° spacing.
 
 The rectangular domain is used as the analysis region for this study and should not be interpreted as a formal geographic definition of the entire Gulf of Guinea.
 
@@ -49,7 +49,7 @@ Three wave variables were retrieved:
 | Mean wave period | `mwp` | Tm |
 | Mean wave direction | `mwd` | — |
 
-### Temporal coverage
+### Temporal Coverage
 
 - **Start:** 1 January 2014
 - **End:** 31 December 2025
@@ -67,27 +67,23 @@ The raw NetCDF dataset is not included in the repository. It can be retrieved us
 
 Wave power density is calculated using:
 
-$begin:math:display$
-P \= \\frac\{\\rho g\^2 H\_s\^2 T\_m\}\{64\\pi\}
-$end:math:display$
+**P = (ρg²Hs²Tm) / (64π)**
 
 where:
 
-- $begin:math:text$P$end:math:text$ = wave power density
-- $begin:math:text$\\rho \= 1025\\ \\mathrm\{kg\/m\^3\}$end:math:text$ = seawater density
-- $begin:math:text$g \= 9\.81\\ \\mathrm\{m\/s\^2\}$end:math:text$ = gravitational acceleration
-- $begin:math:text$H\_s$end:math:text$ = significant wave height
-- $begin:math:text$T\_m$end:math:text$ = mean wave period
+- **P** = wave power density
+- **ρ = 1025 kg/m³** = seawater density
+- **g = 9.81 m/s²** = gravitational acceleration
+- **Hs** = significant wave height
+- **Tm** = mean wave period
 
 Wave power density is reported in **kW/m**.
 
-### Important averaging procedure
+### Important Averaging Procedure
 
-Wave power density is calculated independently at each valid observation **before temporal averaging**:
+Wave power density is calculated independently at each valid observation before temporal averaging:
 
-$begin:math:display$
-\\overline\{P\} \= \\operatorname\{mean\}\[P\(t\)\]
-$end:math:display$
+**Mean WPD = mean[P(t)]**
 
 The workflow therefore does **not** estimate long-term wave power by substituting mean wave height and mean period into the nonlinear power equation.
 
@@ -115,15 +111,15 @@ The repository contains the following reproducible workflow:
 08_case_study_locations.py
 ```
 
-### 01 — ERA5 acquisition
+### 01 — ERA5 Acquisition
 
 Downloads the required ERA5 wave variables for the analysis domain and study period using the Copernicus Climate Data Store API.
 
-### 02 — Dataset inspection
+### 02 — Dataset Inspection
 
 Checks the downloaded NetCDF dataset, including dimensions, temporal coverage, spatial coverage, and the presence of the required variables.
 
-### 03 — Regional statistics
+### 03 — Regional Statistics
 
 Calculates domain-wide long-term mean:
 
@@ -131,11 +127,11 @@ Calculates domain-wide long-term mean:
 - mean wave period
 - wave power density
 
-### 04 — Monthly climatology
+### 04 — Monthly Climatology
 
 Calculates monthly climatological means for Hs, Tm, and wave power density.
 
-### 05 — Seasonal climatology
+### 05 — Seasonal Climatology
 
 Calculates climatological statistics for:
 
@@ -144,7 +140,7 @@ Calculates climatological statistics for:
 - JJA — June, July, August
 - SON — September, October, November
 
-### 06 — Hs–Tm occurrence analysis
+### 06 — Hs–Tm Occurrence Analysis
 
 Constructs a two-dimensional occurrence distribution using:
 
@@ -153,11 +149,11 @@ Constructs a two-dimensional occurrence distribution using:
 
 The selected plotting range contains approximately **99.29%** of valid paired Hs–Tm observations.
 
-### 07 — Spatial wave power density
+### 07 — Spatial Wave Power Density
 
 Calculates long-term mean wave power density independently at each ERA5 grid cell across the analysis domain.
 
-### 08 — Representative offshore case studies
+### 08 — Representative Offshore Case Studies
 
 Extracts ERA5 conditions at three representative offshore locations:
 
@@ -196,6 +192,23 @@ The most populated Hs–Tm occurrence bin is:
 - **Tm:** 8.5–9.0 s
 - **Occurrence count:** 146,444 observations
 
+The occurrence diagram contains **2,780,846** observations within the selected Hs–Tm plotting range, representing **99.29%** of the **2,800,737** valid paired observations.
+
+---
+
+## Spatial Wave Power Distribution
+
+Long-term mean wave power density varies substantially across the rectangular analysis domain.
+
+The calculated grid-cell range is:
+
+- **Minimum mean WPD:** 0.4567 kW/m at 0.50°S, 9.50°E
+- **Maximum mean WPD:** 12.7809 kW/m at 5.00°S, 5.00°W
+
+These values represent the minimum and maximum ERA5 grid-cell means within the defined analysis domain.
+
+They should **not** be interpreted as identifying the worst or best deployment locations. In particular, boundary, coastal, and land-adjacent grid cells require careful interpretation, and no siting optimization is performed in this study.
+
 ---
 
 ## Representative Offshore Case Studies
@@ -209,6 +222,8 @@ The three case-study locations produce the following long-term statistics:
 | Lagos offshore | 5.0°N, 3.5°E | 1.3742 | 8.8960 | 9.0541 |
 
 The nominal Lagos case-study longitude is **3.4°E**. Because the ERA5 dataset uses a 0.5° grid, nearest-neighbour extraction selects the **3.5°E** ERA5 grid cell.
+
+The locations are intended to provide representative offshore cases for engineering interpretation and subsequent WEC assessment. They are not proposed as optimal or deployment-ready sites.
 
 ---
 
@@ -248,6 +263,7 @@ GoG-WaveSpec/
 │       └── case_study_statistics.csv
 │
 ├── .gitignore
+├── LICENSE
 ├── requirements.txt
 └── README.md
 ```
@@ -256,24 +272,24 @@ GoG-WaveSpec/
 
 ## Reproducing the Analysis
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/CallmeInnocent/GoG-WaveSpec.git
 cd GoG-WaveSpec
 ```
 
-### 2. Install Python dependencies
+### 2. Install Python Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure Copernicus CDS access
+### 3. Configure Copernicus CDS Access
 
 A valid Copernicus Climate Data Store account and CDS API configuration are required to retrieve ERA5 data.
 
-### 4. Download the ERA5 dataset
+### 4. Download the ERA5 Dataset
 
 ```bash
 python scripts/01_download_era5.py
@@ -285,13 +301,20 @@ The resulting file should be stored as:
 data/gog_2014_2025.nc
 ```
 
-### 5. Inspect the dataset
+### 5. Inspect the Dataset
 
 ```bash
 python scripts/02_inspect_dataset.py
 ```
 
-### 6. Run the analyses
+The verified dataset used in this study contains:
+
+- **4,383** time steps
+- **31** latitude points
+- **31** longitude points
+- `swh`, `mwp`, and `mwd` variables
+
+### 6. Run the Analyses
 
 ```bash
 python scripts/03_regional_statistics.py
@@ -336,13 +359,15 @@ GoG-WaveSpec establishes the resource-characterization stage of a broader wave-e
 
 The wave-climate characteristics identified here can inform subsequent WEC simulations and control studies. Device-specific modelling, period definitions, hydrodynamic assumptions, PTO control, and performance assessment are intentionally treated as separate downstream research questions.
 
+Accordingly, this repository does not claim that a particular set of WEC operating conditions or controller parameters is formally derived from the resource characterization presented here.
+
 This separation prevents resource characterization from being conflated with WEC performance.
 
 ---
 
 ## Data Availability
 
-ERA5 data are available through the **Copernicus Climate Data Store**.
+ERA5 data are available through the Copernicus Climate Data Store.
 
 The raw NetCDF dataset used locally is intentionally excluded from version control. The repository provides an acquisition script so that the source dataset can be retrieved independently.
 
@@ -366,4 +391,6 @@ A formal citation for GoG-WaveSpec will be added following completion of the ass
 
 ## License
 
-License information will be added to the repository before public release.
+This project is released under the **MIT License**.
+
+See the `LICENSE` file for the full license text.
